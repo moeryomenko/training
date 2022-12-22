@@ -10,3 +10,4 @@ function(solution)
 endfunction()
 
 solution(NAME "minimum_difficulty_job_schedule")
+solution(NAME "climbing_stairs")
