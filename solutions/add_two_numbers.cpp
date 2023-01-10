@@ -10,6 +10,18 @@ struct ListNode {
   ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
+void freeList(ListNode *root) {
+  auto current = root;
+
+  while (current->next != nullptr) {
+    auto to_free = current;
+    current = current->next;
+    free(to_free);
+  }
+
+  free(current);
+}
+
 auto list_from_vector(std::vector<int> vec) -> ListNode * {
   ListNode *l = nullptr;
   ListNode *head;
@@ -32,6 +44,8 @@ auto vector_from_list(ListNode *l) -> std::vector<int> {
   for (auto it = l; it != nullptr; it = it->next) {
     vec.push_back(it->val);
   }
+
+  freeList(l);
   return vec;
 }
 
