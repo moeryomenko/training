@@ -9,8 +9,13 @@ function(solution)
     add_test(NAME ${SUIT_TEST} COMMAND ${SOLUTION_NAME})
 endfunction()
 
+# leetcode
 solution(NAME "minimum_difficulty_job_schedule")
 solution(NAME "climbing_stairs")
 solution(NAME "add_two_numbers")
 solution(NAME "gray_code")
 solution(NAME "palindrome_list")
+solution(NAME "two_sum")
+
+# codewars
+solution(NAME "supermarket_queue")
