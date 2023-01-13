@@ -15,6 +15,23 @@ pub fn find_numbers(nums: Vec<i32>) -> i32 {
         .count() as _
 }
 
+pub fn pivot_index(nums: Vec<i32>) -> i32 {
+    let sum: i32 = nums.iter().sum();
+    let mut psum = 0i32;
+    let is_pivot = |&n| {
+        if sum - psum - n == psum {
+            true
+        } else {
+            psum += n;
+            false
+        }
+    };
+    match nums.iter().position(is_pivot) {
+        Some(idx) => idx as i32,
+        None => -1,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -35,5 +52,12 @@ mod tests {
     #[test]
     fn check_find_numbers() {
         assert_eq!(find_numbers(vec![12, 345, 2, 6, 7896]), 2);
+    }
+
+    #[test]
+    fn check_pivot_index() {
+        assert_eq!(pivot_index(vec![1, 7, 3, 6, 5, 6]), 3);
+        assert_eq!(pivot_index(vec![1, 2, 3]), -1);
+        assert_eq!(pivot_index(vec![2, 1, -1]), 0);
     }
 }

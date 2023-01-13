@@ -20,6 +20,7 @@ solution(NAME "maximum_count_pos_neg")
 solution(NAME "count_neg_in_matrix")
 solution(NAME "find_number_even_digits")
 solution(NAME "running_sum")
+solution(NAME "find_pivot_index")
 
 # codewars
 solution(NAME "supermarket_queue")
