@@ -16,6 +16,9 @@ solution(NAME "add_two_numbers")
 solution(NAME "gray_code")
 solution(NAME "palindrome_list")
 solution(NAME "two_sum")
+solution(NAME "maximum_count_pos_neg")
+solution(NAME "count_neg_in_matrix")
+solution(NAME "find_number_even_digits")
 
 # codewars
 solution(NAME "supermarket_queue")
