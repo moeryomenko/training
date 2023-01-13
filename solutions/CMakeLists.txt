@@ -22,6 +22,7 @@ solution(NAME "find_number_even_digits")
 solution(NAME "running_sum")
 solution(NAME "find_pivot_index")
 solution(NAME "gcd_array")
+solution(NAME "trap_rain_water")
 
 # codewars
 solution(NAME "supermarket_queue")
