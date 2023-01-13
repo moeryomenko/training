@@ -19,6 +19,7 @@ solution(NAME "two_sum")
 solution(NAME "maximum_count_pos_neg")
 solution(NAME "count_neg_in_matrix")
 solution(NAME "find_number_even_digits")
+solution(NAME "running_sum")
 
 # codewars
 solution(NAME "supermarket_queue")
