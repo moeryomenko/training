@@ -21,6 +21,7 @@ solution(NAME "count_neg_in_matrix")
 solution(NAME "find_number_even_digits")
 solution(NAME "running_sum")
 solution(NAME "find_pivot_index")
+solution(NAME "gcd_array")
 
 # codewars
 solution(NAME "supermarket_queue")

@@ -32,6 +32,37 @@ pub fn pivot_index(nums: Vec<i32>) -> i32 {
     }
 }
 
+pub fn find_gcd(nums: Vec<i32>) -> i32 {
+    let (min, max) = minmax(nums);
+    gcd(min, max)
+}
+
+pub fn minmax(nums: Vec<i32>) -> (i32, i32) {
+    let (mut min, mut max) = (nums[0], nums[0]);
+    for &n in &nums[1..] {
+        if n < min {
+            min = n;
+            continue;
+        }
+        if n > max {
+            max = n;
+            continue;
+        }
+    }
+    (min, max)
+}
+
+pub fn gcd(mut n: i32, mut m: i32) -> i32 {
+    assert!(n != 0 && m != 0);
+    while m != 0 {
+        if m < n {
+            std::mem::swap(&mut m, &mut n);
+        }
+        m %= n;
+    }
+    n
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -59,5 +90,12 @@ mod tests {
         assert_eq!(pivot_index(vec![1, 7, 3, 6, 5, 6]), 3);
         assert_eq!(pivot_index(vec![1, 2, 3]), -1);
         assert_eq!(pivot_index(vec![2, 1, -1]), 0);
+    }
+
+    #[test]
+    fn check_find_gcd() {
+        assert_eq!(find_gcd(vec![2, 5, 6, 9, 10]), 2);
+        assert_eq!(find_gcd(vec![7, 5, 6, 8, 3]), 1);
+        assert_eq!(find_gcd(vec![3, 3]), 3);
     }
 }
