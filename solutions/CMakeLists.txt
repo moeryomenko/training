@@ -26,3 +26,6 @@ solution(NAME "trap_rain_water")
 
 # codewars
 solution(NAME "supermarket_queue")
+
+# other
+solution(NAME "subarray_k_max_sum")
