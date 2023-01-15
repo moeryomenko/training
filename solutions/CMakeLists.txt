@@ -25,6 +25,7 @@ solution(NAME "gcd_array")
 solution(NAME "trap_rain_water")
 solution(NAME "isomorphic_string")
 solution(NAME "subsequence")
+solution(NAME "merge_sorted_lists")
 
 # codewars
 solution(NAME "supermarket_queue")
