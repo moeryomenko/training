@@ -23,6 +23,7 @@ solution(NAME "running_sum")
 solution(NAME "find_pivot_index")
 solution(NAME "gcd_array")
 solution(NAME "trap_rain_water")
+solution(NAME "isomorphic_string")
 
 # codewars
 solution(NAME "supermarket_queue")
