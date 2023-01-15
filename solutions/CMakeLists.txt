@@ -27,6 +27,7 @@ solution(NAME "isomorphic_string")
 solution(NAME "subsequence")
 solution(NAME "merge_sorted_lists")
 solution(NAME "sliding_window_max")
+solution(NAME "sliding_window_median")
 
 # codewars
 solution(NAME "supermarket_queue")
