@@ -26,6 +26,7 @@ solution(NAME "trap_rain_water")
 solution(NAME "isomorphic_string")
 solution(NAME "subsequence")
 solution(NAME "merge_sorted_lists")
+solution(NAME "sliding_window_max")
 
 # codewars
 solution(NAME "supermarket_queue")
