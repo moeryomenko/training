@@ -29,6 +29,7 @@ solution(NAME "merge_sorted_lists")
 solution(NAME "sliding_window_max")
 solution(NAME "sliding_window_median")
 solution(NAME "subsequence_k_max_sum")
+solution(NAME "k_largest_elements")
 
 # codewars
 solution(NAME "supermarket_queue")
