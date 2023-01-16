@@ -30,6 +30,7 @@ solution(NAME "sliding_window_max")
 solution(NAME "sliding_window_median")
 solution(NAME "subsequence_k_max_sum")
 solution(NAME "k_largest_elements")
+solution(NAME "max_average_subarray")
 
 # codewars
 solution(NAME "supermarket_queue")
