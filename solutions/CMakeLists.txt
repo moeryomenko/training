@@ -28,6 +28,7 @@ solution(NAME "subsequence")
 solution(NAME "merge_sorted_lists")
 solution(NAME "sliding_window_max")
 solution(NAME "sliding_window_median")
+solution(NAME "subsequence_k_max_sum")
 
 # codewars
 solution(NAME "supermarket_queue")
