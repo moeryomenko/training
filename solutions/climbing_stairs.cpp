@@ -28,6 +28,9 @@ auto climb_stairs(int n) -> int {
       root_5);
 }
 
+#define ANKERL_NANOBENCH_IMPLEMENT
+#include <nanobench.h>
+
 auto main() -> int {
   using namespace boost::ut;
 
@@ -37,6 +40,10 @@ auto main() -> int {
     expect(climb_stairs(4) == 5_i);
     expect(climb_stairs(35) == 14930352_i);
   };
+
+  ankerl::nanobench::Bench().run("constexpr solution", [] {
+    ankerl::nanobench::doNotOptimizeAway(climb_stairs(100));
+  });
 
   return 0;
 }

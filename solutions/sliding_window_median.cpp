@@ -55,6 +55,9 @@ auto median_sliding_window(const std::vector<int> &nums, int k)
   return res;
 }
 
+#define ANKERL_NANOBENCH_IMPLEMENT
+#include <nanobench.h>
+
 auto main() -> int {
   using namespace boost::ut;
 
@@ -82,6 +85,13 @@ auto main() -> int {
            // 1, 1, 3, 4, 4, 7, 8, 8  => 4.5
            std::vector{4.5, 4.5, 4.0});
   };
+
+  ankerl::nanobench::Bench().run("1st solution", [] {
+    ankerl::nanobench::doNotOptimizeAway(
+        median_sliding_window({5, 2, 2, 7, 3, 7, 9, 0, 2, 3, 5, 2, 2, 7, 3,
+                               7, 9, 0, 2, 3, 5, 5, 8, 1, 4, 7, 1, 3, 8, 4},
+                              9));
+  });
 
   return EXIT_SUCCESS;
 }

@@ -168,6 +168,9 @@ auto max_sliding_window(const std::vector<int> &nums, int k)
   return res;
 }
 
+#define ANKERL_NANOBENCH_IMPLEMENT
+#include <nanobench.h>
+
 auto main() -> int {
   using namespace boost::ut;
 
@@ -178,6 +181,26 @@ auto main() -> int {
     expect(max_sliding_window({-7, -8, 7, 5, 7, 1, 6, 0}, 4) ==
            std::vector{7, 7, 7, 7, 7});
   };
+
+  for (auto solution :
+       std::vector<std::pair<std::string, std::function<std::vector<int>(
+                                              const std::vector<int> &, int)>>>{
+           {"1st approach", max_sliding_window_slower},
+           {"2st approach", max_sliding_window_slow},
+           {"1st approach of max_heap", max_sliding_window_max_heap},
+           {"2st approach of max_heap", max_sliding_window_max_heap_map},
+           {"3st approach of max_heap", max_sliding_window_custom_max_heap},
+           {"queue approach", max_sliding_window},
+       }) {
+    ankerl::nanobench::Bench().run(solution.first, [&solution] {
+      ankerl::nanobench::doNotOptimizeAway(
+          solution.second({1, 3, -1, -3, 5, 3, 6, 7, -7, -8, 7, 5, 7, 1, 6, 0,
+                           1, 3, -1, -3, 5, 3, 6, 7, -7, -8, 7, 5, 7, 1, 6, 0,
+                           1, 3, -1, -3, 5, 3, 6, 7, -7, -8, 7, 5, 7, 1, 6, 0,
+                           1, 3, -1, -3, 5, 3, 6, 7, -7, -8, 7, 5, 7, 1, 6, 0},
+                          10));
+    });
+  }
 
   return EXIT_SUCCESS;
 }
