@@ -32,6 +32,7 @@ solution(NAME "subsequence_k_max_sum")
 solution(NAME "k_largest_elements")
 solution(NAME "max_average_subarray")
 solution(NAME "max_sum_circle_subarray")
+solution(NAME "longest_palindrome")
 
 # codewars
 solution(NAME "supermarket_queue")
