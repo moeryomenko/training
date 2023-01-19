@@ -33,6 +33,7 @@ solution(NAME "k_largest_elements")
 solution(NAME "max_average_subarray")
 solution(NAME "max_sum_circle_subarray")
 solution(NAME "longest_palindrome")
+solution(NAME "binary_search")
 
 # codewars
 solution(NAME "supermarket_queue")
