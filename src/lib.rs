@@ -1,3 +1,5 @@
+use std::cmp::Ordering;
+
 pub fn count_negatives(grid: Vec<Vec<i32>>) -> i32 {
     let mut end = match grid.first() {
         Some(vec) => vec.len(),
@@ -13,6 +15,29 @@ pub fn find_numbers(nums: Vec<i32>) -> i32 {
     nums.into_iter()
         .filter(|&n| ((n as f64).log10() as i32 + 1) % 2 == 0)
         .count() as _
+}
+
+pub fn trap_rain_water(nums: Vec<i32>) -> i32 {
+    let index = nums
+        .iter()
+        .enumerate()
+        .max_by(|(_, &a), (_, b)| a.partial_cmp(b).unwrap_or(Ordering::Equal))
+        .map(|(index, _)| index)
+        .unwrap();
+
+    let sum = |part: Vec<i32>| {
+        let mut max = 0;
+        return part.into_iter().fold(0i32, |mut sum, e| {
+            max = max.max(e);
+            sum += max - e;
+            sum
+        });
+    };
+
+    let mut right = nums[index..].to_vec();
+    right.reverse();
+
+    sum(nums[0..index].to_vec()) + sum(right)
 }
 
 pub fn pivot_index(nums: Vec<i32>) -> i32 {
@@ -97,5 +122,10 @@ mod tests {
         assert_eq!(find_gcd(vec![2, 5, 6, 9, 10]), 2);
         assert_eq!(find_gcd(vec![7, 5, 6, 8, 3]), 1);
         assert_eq!(find_gcd(vec![3, 3]), 3);
+    }
+
+    #[test]
+    fn check_trap() {
+        assert_eq!(trap_rain_water(vec![0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]), 6);
     }
 }
