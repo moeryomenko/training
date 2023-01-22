@@ -57,6 +57,14 @@ pub fn pivot_index(nums: Vec<i32>) -> i32 {
     }
 }
 
+pub fn min_cost_climbing_stairs(mut cost: Vec<i32>) -> i32 {
+    for i in 2..cost.len() {
+        cost[i] += cost[i - 1].min(cost[i - 2])
+    }
+
+    *cost.last().unwrap().min(&cost[cost.len() - 2])
+}
+
 pub fn find_gcd(nums: Vec<i32>) -> i32 {
     let (min, max) = minmax(nums);
     gcd(min, max)
@@ -138,5 +146,14 @@ mod tests {
     #[test]
     fn check_trap() {
         assert_eq!(trap_rain_water(vec![0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]), 6);
+    }
+
+    #[test]
+    fn check_min_cost_climbing_stairs() {
+        assert_eq!(min_cost_climbing_stairs(vec![10, 15, 20]), 15);
+        assert_eq!(
+            min_cost_climbing_stairs(vec![1, 100, 1, 1, 1, 100, 1, 1, 100, 1]),
+            6
+        );
     }
 }

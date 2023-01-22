@@ -34,6 +34,7 @@ solution(NAME "max_average_subarray")
 solution(NAME "max_sum_circle_subarray")
 solution(NAME "longest_palindrome")
 solution(NAME "binary_search")
+solution(NAME "min_cost_climbing_stairs")
 
 # codewars
 solution(NAME "supermarket_queue")
