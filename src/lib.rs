@@ -88,6 +88,17 @@ pub fn gcd(mut n: i32, mut m: i32) -> i32 {
     n
 }
 
+pub fn fib(n: i32) -> i32 {
+    if n == 0 || n == 1 {
+        return 1;
+    }
+    let root_5: f64 = 5.0_f64.sqrt();
+    let gold_ratio: f64 = (1. + root_5) / 2.;
+    let reverse_gold_ratio: f64 = (1. - root_5) / 2.;
+
+    ((gold_ratio.powi(n) - reverse_gold_ratio.powi(n)) / root_5).round() as _
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

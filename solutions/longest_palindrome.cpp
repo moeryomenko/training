@@ -15,10 +15,8 @@ auto longest_palindrome(std::string_view s) -> int {
                               return mp;
                             });
 
-  int ans = std::accumulate(mp.cbegin(), mp.cend(), 0, [](int ans, int k) {
-    ans += k - (k % 2);
-    return ans;
-  });
+  int ans = std::accumulate(mp.cbegin(), mp.cend(), 0,
+                            [](int ans, int k) { return ans += k - (k % 2); });
 
   return ans == s.size() ? ans : ans + 1;
 }
