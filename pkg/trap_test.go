@@ -18,15 +18,15 @@ func trap(height []int) int {
 
 	init := height[0]
 	sum := 0
-	for _, v := range height[1:index] {
+	for _, v := range height[0:index] {
 		if init < v {
 			init = v
 		}
 		sum += init - v
 	}
 
-	init = height[len(height) - 1]
-	for i := len(height)-2; i > index; i-- {
+	init = height[len(height)-1]
+	for i := len(height) - 2; i > index; i-- {
 		if init < height[i] {
 			init = height[i]
 		}
