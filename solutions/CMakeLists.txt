@@ -35,6 +35,7 @@ solution(NAME "longest_palindrome")
 solution(NAME "binary_search")
 solution(NAME "min_cost_climbing_stairs")
 solution(NAME "unique_path")
+solution(NAME "largest_rectangle")
 
 # codewars
 solution(NAME "supermarket_queue")
