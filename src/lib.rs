@@ -107,6 +107,28 @@ pub fn fib(n: i32) -> i32 {
     ((gold_ratio.powi(n) - reverse_gold_ratio.powi(n)) / root_5).round() as _
 }
 
+pub fn largest_rectangle(heights: Vec<i32>) -> i32 {
+    let mut stack: Vec<(usize, i32)> = Vec::new();
+
+    let len = heights.len();
+
+    let mut max_area = 0;
+
+    for (i, h) in heights.into_iter().enumerate() {
+        let mut start = i;
+        while !stack.is_empty() && stack.last().unwrap().1 > h {
+            let (index, height) = stack.pop().unwrap();
+            max_area = max_area.max(height * (i - index) as i32);
+            start = index;
+        }
+        stack.push((start, h));
+    }
+
+    stack
+        .into_iter()
+        .fold(max_area, |max, (i, h)| max.max(h * (len - i) as i32))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -155,5 +177,10 @@ mod tests {
             min_cost_climbing_stairs(vec![1, 100, 1, 1, 1, 100, 1, 1, 100, 1]),
             6
         );
+    }
+
+    #[test]
+    fn check_largest_rectangle() {
+        assert_eq!(largest_rectangle(vec![2, 1, 5, 6, 2, 4]), 10);
     }
 }
