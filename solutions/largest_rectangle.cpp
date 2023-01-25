@@ -38,12 +38,11 @@ auto maximal_rectangle(const std::vector<std::vector<char>> &matrix) -> int {
   std::inclusive_scan(
       matrix.cbegin(), matrix.cend(), dp.begin(),
       [](std::vector<int> prev_row, std::vector<char> row) {
-        std::vector<int> res(row.size());
-        for (int i = 0; char c : row) {
-          res[i] = c == '1' ? prev_row[i] + 1 : 0;
-          ++i;
-        }
-        return res;
+        std::transform(prev_row.cbegin(), prev_row.cend(), prev_row.begin(),
+                       [v = row.begin()](int n) mutable {
+                         return *v++ == '1' ? n + 1 : 0;
+                       });
+        return prev_row;
       },
       std::vector<int>(matrix.front().size(), 0));
   return std::accumulate(dp.cbegin(), dp.cend(), 0, [](int max, auto heights) {
