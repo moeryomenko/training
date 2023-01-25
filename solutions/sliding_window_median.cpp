@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <functional>
 #include <iostream>
 #include <iterator>
 #include <numeric>
@@ -17,41 +18,32 @@ auto find_by_order(const std::multiset<long long> &s, int k) -> long long {
   return *s.crbegin();
 }
 
-auto order_of_key(const std::multiset<long long> &s, long long n) -> long long {
-  return std::distance(s.cbegin(), std::lower_bound(s.cbegin(), s.cend(), n));
-}
-
 auto median_sliding_window(const std::vector<int> &nums, int k)
     -> std::vector<double> {
+  std::function<double(std::multiset<long long>)> take_median;
+  if (k & 1) {
+    take_median = [&k](const std::multiset<long long> &s) {
+      return find_by_order(s, k / 2);
+    };
+  } else {
+    take_median = [&k](const std::multiset<long long> &s) {
+      return static_cast<double>(find_by_order(s, (k + 1) / 2 - 1) +
+                                 find_by_order(s, k / 2)) /
+             2;
+    };
+  }
+
   std::multiset<long long> s;
   s.insert(nums.cbegin(), nums.cbegin() + k);
 
-  std::vector<double> res;
-  if (k & 1) {
-    res.push_back(find_by_order(s, k / 2));
-
-    for (int i = 0; i < nums.size() - k; ++i) {
-      s.erase(find_by_order(s, order_of_key(s, nums[i])));
-
-      s.insert(nums[i + k]);
-
-      res.push_back(find_by_order(s, k / 2));
-    }
-  } else {
-    res.push_back(static_cast<double>(find_by_order(s, (k + 1) / 2 - 1) +
-                                      find_by_order(s, k / 2)) /
-                  2);
-
-    for (int i = 0; i < nums.size() - k; ++i) {
-      s.erase(s.find(nums[i]));
-
-      s.insert(nums[i + k]);
-
-      auto l = find_by_order(s, (k + 1) / 2 - 1);
-      auto r = find_by_order(s, (k / 2));
-      res.push_back(static_cast<double>(l + r) / 2);
-    }
-  }
+  std::vector<double> res(nums.size() - k + 1);
+  res[0] = take_median(s);
+  std::transform(nums.cbegin() + k, nums.cend(), res.begin() + 1,
+                 [&s, &take_median, prev = nums.cbegin()](int n) mutable {
+                   s.erase(s.find(*prev++));
+                   s.insert(n);
+                   return take_median(s);
+                 });
   return res;
 }
 
@@ -69,7 +61,6 @@ auto main() -> int {
     s.insert(7);
     s.insert(9);
 
-    expect(order_of_key(s, 5) == 2_i);
     expect(find_by_order(s, 4) == 9_i);
   };
 
