@@ -32,9 +32,9 @@ func largestRectangle(heights []int) int {
 	stack := Stack{
 		items: make([][2]int, 0, len(heights)),
 	}
-	size := len(heights)
 	maxArea := 0
 
+	heights = append(heights, 0)
 	for i, height := range heights {
 		start := i
 		for !stack.Empty() && stack.Top()[1] > height {
@@ -48,15 +48,6 @@ func largestRectangle(heights []int) int {
 			start = prev[0]
 		}
 		stack.Push(start, height)
-	}
-
-	for _, v := range stack.items {
-		index, height := v[0], v[1]
-		area := height * (size - index)
-
-		if maxArea < area {
-			maxArea = area
-		}
 	}
 
 	return maxArea
