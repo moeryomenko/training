@@ -7,11 +7,9 @@
 #include <utility>
 #include <vector>
 
-auto largest_rectangle(const std::vector<int> &heights) -> int {
+auto largest_rectangle(std::vector<int> &&heights) -> int {
   std::vector<std::pair<int, int>> stack;
-
-  int len = heights.size();
-
+  heights.push_back(0);
   int max_area = 0;
   for (int i = 0; auto h : heights) {
     int start = i;
@@ -25,12 +23,7 @@ auto largest_rectangle(const std::vector<int> &heights) -> int {
     stack.push_back({start, h});
     ++i;
   }
-
-  return std::accumulate(stack.cbegin(), stack.cend(), max_area,
-                         [&len](int max, auto pair) {
-                           auto [i, h] = pair;
-                           return std::max(max, h * (len - i));
-                         });
+  return max_area;
 }
 
 auto maximal_rectangle(const std::vector<std::vector<char>> &matrix) -> int {
@@ -46,7 +39,7 @@ auto maximal_rectangle(const std::vector<std::vector<char>> &matrix) -> int {
       },
       std::vector<int>(matrix.front().size(), 0));
   return std::accumulate(dp.cbegin(), dp.cend(), 0, [](int max, auto heights) {
-    return std::max(max, largest_rectangle(heights));
+    return std::max(max, largest_rectangle(std::move(heights)));
   });
 }
 
