@@ -62,6 +62,46 @@ func largestRectangle(heights []int) int {
 	return maxArea
 }
 
+func maximalRectangle(matrix [][]byte) int {
+	dp := make([][]int, len(matrix))
+
+	for _, val := range matrix[0] {
+		if val == '1' {
+			dp[0] = append(dp[0], 1)
+			continue
+		}
+		dp[0] = append(dp[0], 0)
+	}
+
+	for i, vals := range matrix[1:] {
+		for j, val := range vals {
+			if val == '1' {
+				dp[i+1] = append(dp[i+1], dp[i][j]+1)
+				continue
+			}
+			dp[i+1] = append(dp[i+1], 0)
+		}
+	}
+
+	maxArea := 0
+	for _, hist := range dp {
+		if temp := largestRectangle(hist); maxArea < temp {
+			maxArea = temp
+		}
+	}
+
+	return maxArea
+}
+
 func Test_largestRectangle(t *testing.T) {
 	assert.Equal(t, 10, largestRectangle([]int{2, 1, 5, 6, 2, 3}))
+}
+
+func Test_maximalRectangle(t *testing.T) {
+	assert.Equal(t, 6, maximalRectangle([][]byte{
+		{'1', '0', '1', '0', '0'},
+		{'1', '0', '1', '1', '1'},
+		{'1', '1', '1', '1', '1'},
+		{'1', '0', '0', '1', '0'},
+	}))
 }
