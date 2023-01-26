@@ -134,12 +134,7 @@ pub fn maximal_rectangle(matrix: Vec<Vec<char>>) -> i32 {
                     .unwrap()
                     .into_iter()
                     .zip(chars.iter())
-                    .map(|(n, &c)| {
-                        if c == '1' {
-                            return n + 1;
-                        }
-                        return 0;
-                    })
+                    .map(|(n, &c)| if c == '1' { n + 1 } else { 0 })
                     .collect::<Vec<i32>>(),
             );
             res
