@@ -107,12 +107,10 @@ pub fn fib(n: i32) -> i32 {
     ((gold_ratio.powi(n) - reverse_gold_ratio.powi(n)) / root_5).round() as _
 }
 
-pub fn largest_rectangle(heights: Vec<i32>) -> i32 {
+pub fn largest_rectangle(mut heights: Vec<i32>) -> i32 {
     let mut stack: Vec<(usize, i32)> = Vec::new();
-
-    let len = heights.len();
-
     let mut max_area = 0;
+    heights.push(0);
 
     for (i, h) in heights.into_iter().enumerate() {
         let mut start = i;
@@ -124,9 +122,32 @@ pub fn largest_rectangle(heights: Vec<i32>) -> i32 {
         stack.push((start, h));
     }
 
-    stack
-        .into_iter()
-        .fold(max_area, |max, (i, h)| max.max(h * (len - i) as i32))
+    max_area
+}
+
+pub fn maximal_rectangle(matrix: Vec<Vec<char>>) -> i32 {
+    let dp = matrix.iter().fold(
+        vec![vec![0i32; matrix.last().unwrap().len()]; matrix.len()],
+        |mut res, chars| {
+            res.push(
+                res.last()
+                    .unwrap()
+                    .into_iter()
+                    .zip(chars.iter())
+                    .map(|(n, &c)| {
+                        if c == '1' {
+                            return n + 1;
+                        }
+                        return 0;
+                    })
+                    .collect::<Vec<i32>>(),
+            );
+            res
+        },
+    );
+
+    dp.into_iter()
+        .fold(0, |max, heights| max.max(largest_rectangle(heights)))
 }
 
 #[cfg(test)]
@@ -182,5 +203,18 @@ mod tests {
     #[test]
     fn check_largest_rectangle() {
         assert_eq!(largest_rectangle(vec![2, 1, 5, 6, 2, 4]), 10);
+    }
+
+    #[test]
+    fn check_maximal_rectangle() {
+        assert_eq!(
+            maximal_rectangle(vec![
+                vec!['1', '0', '1', '0', '0'],
+                vec!['1', '0', '1', '1', '1'],
+                vec!['1', '1', '1', '1', '1'],
+                vec!['1', '0', '0', '1', '0'],
+            ]),
+            6
+        );
     }
 }
