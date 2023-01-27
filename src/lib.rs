@@ -27,11 +27,11 @@ pub fn trap_rain_water(nums: Vec<i32>) -> i32 {
 
     let sum = |part: Vec<i32>| {
         let mut max = 0;
-        return part.into_iter().fold(0i32, |mut sum, e| {
+        part.into_iter().fold(0i32, |mut sum, e| {
             max = max.max(e);
             sum += max - e;
             sum
-        });
+        })
     };
 
     let mut right = nums[index..].to_vec();
@@ -111,41 +111,29 @@ pub fn largest_rectangle(mut heights: Vec<i32>) -> i32 {
     let mut stack: Vec<(usize, i32)> = Vec::new();
     heights.push(0);
 
-    heights
-        .into_iter()
-        .enumerate()
-        .fold(0, |mut max_area, (i, h)| {
-            let mut start = i;
-            while !stack.is_empty() && stack.last().unwrap().1 > h {
-                let (index, height) = stack.pop().unwrap();
-                max_area = max_area.max(height * (i - index) as i32);
-                start = index;
-            }
-            stack.push((start, h));
+    heights.iter().enumerate().fold(0, |mut max_area, (i, h)| {
+        let mut start = i;
+        while !stack.is_empty() && stack.last().unwrap().1 > *h {
+            let (index, height) = stack.pop().unwrap();
+            max_area = max_area.max(height * (i - index) as i32);
+            start = index;
+        }
+        stack.push((start, *h));
 
-            max_area
-        })
+        max_area
+    })
 }
 
 pub fn maximal_rectangle(matrix: Vec<Vec<char>>) -> i32 {
-    matrix
-        .iter()
-        .fold(
-            vec![vec![0i32; matrix.last().unwrap().len()]; matrix.len()],
-            |mut res, chars| {
-                res.push(
-                    res.last()
-                        .unwrap()
-                        .into_iter()
-                        .zip(chars.iter())
-                        .map(|(n, &c)| if c == '1' { n + 1 } else { 0 })
-                        .collect(),
-                );
-                res
-            },
-        )
-        .into_iter()
-        .fold(0, |max, heights| max.max(largest_rectangle(heights)))
+    let mut row = vec![0i32; matrix.first().unwrap().len()];
+    matrix.iter().fold(0, |max, chars| {
+        row = row
+            .iter()
+            .zip(chars)
+            .map(|(n, &c)| if c == '1' { *n + 1 } else { 0 })
+            .collect();
+        max.max(largest_rectangle(row.clone()))
+    })
 }
 
 #[cfg(test)]
@@ -213,6 +201,15 @@ mod tests {
                 vec!['1', '0', '0', '1', '0'],
             ]),
             6
+        );
+        assert_eq!(
+            maximal_rectangle(vec![
+                vec!['1', '1', '1', '1', '1'],
+                vec!['1', '1', '1', '1', '1'],
+                vec!['1', '0', '1', '1', '1'],
+                vec!['1', '0', '1', '1', '1'],
+            ]),
+            12
         );
     }
 }
