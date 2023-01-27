@@ -109,39 +109,42 @@ pub fn fib(n: i32) -> i32 {
 
 pub fn largest_rectangle(mut heights: Vec<i32>) -> i32 {
     let mut stack: Vec<(usize, i32)> = Vec::new();
-    let mut max_area = 0;
     heights.push(0);
 
-    for (i, h) in heights.into_iter().enumerate() {
-        let mut start = i;
-        while !stack.is_empty() && stack.last().unwrap().1 > h {
-            let (index, height) = stack.pop().unwrap();
-            max_area = max_area.max(height * (i - index) as i32);
-            start = index;
-        }
-        stack.push((start, h));
-    }
+    heights
+        .into_iter()
+        .enumerate()
+        .fold(0, |mut max_area, (i, h)| {
+            let mut start = i;
+            while !stack.is_empty() && stack.last().unwrap().1 > h {
+                let (index, height) = stack.pop().unwrap();
+                max_area = max_area.max(height * (i - index) as i32);
+                start = index;
+            }
+            stack.push((start, h));
 
-    max_area
+            max_area
+        })
 }
 
 pub fn maximal_rectangle(matrix: Vec<Vec<char>>) -> i32 {
-    let dp = matrix.iter().fold(
-        vec![vec![0i32; matrix.last().unwrap().len()]; matrix.len()],
-        |mut res, chars| {
-            res.push(
-                res.last()
-                    .unwrap()
-                    .into_iter()
-                    .zip(chars.iter())
-                    .map(|(n, &c)| if c == '1' { n + 1 } else { 0 })
-                    .collect::<Vec<i32>>(),
-            );
-            res
-        },
-    );
-
-    dp.into_iter()
+    matrix
+        .iter()
+        .fold(
+            vec![vec![0i32; matrix.last().unwrap().len()]; matrix.len()],
+            |mut res, chars| {
+                res.push(
+                    res.last()
+                        .unwrap()
+                        .into_iter()
+                        .zip(chars.iter())
+                        .map(|(n, &c)| if c == '1' { n + 1 } else { 0 })
+                        .collect(),
+                );
+                res
+            },
+        )
+        .into_iter()
         .fold(0, |max, heights| max.max(largest_rectangle(heights)))
 }
 
