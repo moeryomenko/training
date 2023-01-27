@@ -54,29 +54,19 @@ func largestRectangle(heights []int) int {
 }
 
 func maximalRectangle(matrix [][]byte) int {
-	dp := make([][]int, len(matrix))
-
-	for _, val := range matrix[0] {
-		if val == '1' {
-			dp[0] = append(dp[0], 1)
-			continue
-		}
-		dp[0] = append(dp[0], 0)
-	}
-
-	for i, vals := range matrix[1:] {
-		for j, val := range vals {
-			if val == '1' {
-				dp[i+1] = append(dp[i+1], dp[i][j]+1)
-				continue
-			}
-			dp[i+1] = append(dp[i+1], 0)
-		}
-	}
+	row := make([]int, len(matrix[0]))
 
 	maxArea := 0
-	for _, hist := range dp {
-		if temp := largestRectangle(hist); maxArea < temp {
+	for _, chars := range matrix {
+		for i, ch := range chars {
+			if ch == '1' {
+				row[i] += 1
+			} else {
+				row[i] = 0
+			}
+		}
+
+		if temp := largestRectangle(row); temp > maxArea {
 			maxArea = temp
 		}
 	}
