@@ -22,8 +22,6 @@ conan_cmake_run(CONANFILE conanfile.txt
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-find_package(benchmark REQUIRED)
-
 include(CTest)
 enable_testing()
 
