@@ -38,6 +38,7 @@ solution(NAME "unique_path")
 solution(NAME "largest_rectangle")
 solution(NAME "backspace_string_cmp")
 solution(NAME "length_longest_substring")
+solution(NAME "toeplitz_matrix")
 
 # codewars
 solution(NAME "supermarket_queue")
