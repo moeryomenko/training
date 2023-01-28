@@ -136,6 +136,18 @@ pub fn maximal_rectangle(matrix: Vec<Vec<char>>) -> i32 {
     })
 }
 
+pub fn is_toeplitz_matrix(matrix: Vec<Vec<i32>>) -> bool {
+    let mut prev_row = match matrix.first() {
+        Some(v) => v.clone(),
+        None => return false,
+    };
+    matrix.iter().skip(1).all(|row| {
+        prev_row.rotate_right(1);
+        prev_row[0] = row[0];
+        row == &prev_row
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -211,5 +223,14 @@ mod tests {
             ]),
             12
         );
+    }
+
+    #[test]
+    fn check_toeplitz_matrix() {
+        assert!(is_toeplitz_matrix(vec![
+            vec![1, 2, 3, 4],
+            vec![5, 1, 2, 3],
+            vec![9, 5, 1, 2],
+        ]))
     }
 }
