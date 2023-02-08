@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <limits>
+#include <numeric>
 #include <stack>
 #include <vector>
 
@@ -11,13 +12,13 @@ int min_difficulty(const std::vector<int> &jobDifficulty, int d) {
     return -1;
 
   std::vector<int> dp(jobDifficulty.size());
-  std::stack<int> st;
+  std::vector<int> st;
+  st.reserve(jobDifficulty.size());
 
-  int max_val = std::numeric_limits<int>::min();
-  for (int i = 0; i < jobDifficulty.size(); i++) {
-    max_val = std::max(max_val, jobDifficulty[i]);
-    dp[i] = max_val;
-  }
+  std::inclusive_scan(
+      jobDifficulty.cbegin(), jobDifficulty.cend(), dp.begin(),
+      [](auto a, auto b) { return std::max(a, b); },
+      std::numeric_limits<int>::min());
 
   std::vector<int> temp(jobDifficulty.size());
 
@@ -25,25 +26,24 @@ int min_difficulty(const std::vector<int> &jobDifficulty, int d) {
     // flush temp vector.
     std::fill(temp.begin(), temp.end(), std::numeric_limits<int>::max());
 
-    if (!st.empty())
-      st.pop();
+    st.clear();
 
     for (int j = cur_d - 1; j < jobDifficulty.size(); j++) {
       int cur_val = jobDifficulty[j];
 
       temp[j] = dp[j - 1] + cur_val;
 
-      while (!st.empty() && jobDifficulty[st.top()] <= cur_val) {
-        temp[j] = std::min(temp[j],
-                           temp[st.top()] - jobDifficulty[st.top()] + cur_val);
-        st.pop();
+      while (!st.empty() && jobDifficulty[st.back()] <= cur_val) {
+        temp[j] = std::min(temp[j], temp[st.back()] - jobDifficulty[st.back()] +
+                                        cur_val);
+        st.pop_back();
       }
 
       if (!st.empty()) {
-        temp[j] = std::min(temp[j], temp[st.top()]);
+        temp[j] = std::min(temp[j], temp[st.back()]);
       }
 
-      st.push(j);
+      st.push_back(j);
     }
 
     dp = temp;
