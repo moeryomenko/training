@@ -6,30 +6,30 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type Stack struct {
-	items [][2]int
+type Stack[T any] struct {
+	items []T
 }
 
-func (s *Stack) Push(index, height int) {
-	s.items = append(s.items, [2]int{index, height})
+func (s *Stack[T]) Push(elem T) {
+	s.items = append(s.items, elem)
 }
 
-func (s Stack) Empty() bool {
+func (s Stack[T]) Empty() bool {
 	return len(s.items) == 0
 }
 
-func (s Stack) Top() [2]int {
+func (s Stack[T]) Top() T {
 	return s.items[len(s.items)-1]
 }
 
-func (s *Stack) Pop() [2]int {
+func (s *Stack[T]) Pop() T {
 	ret := s.Top()
 	s.items = s.items[:len(s.items)-1]
 	return ret
 }
 
 func largestRectangle(heights []int) int {
-	stack := Stack{
+	stack := Stack[[2]int]{
 		items: make([][2]int, 0, len(heights)),
 	}
 	maxArea := 0
@@ -47,7 +47,7 @@ func largestRectangle(heights []int) int {
 			}
 			start = prev[0]
 		}
-		stack.Push(start, height)
+		stack.Push([2]int{start, height})
 	}
 
 	return maxArea
