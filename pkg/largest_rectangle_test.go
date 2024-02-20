@@ -10,6 +10,12 @@ type Stack[T any] struct {
 	items []T
 }
 
+func NewStack[T any](capacity int) *Stack[T] {
+	return &Stack[T]{
+		items: make([]T, 0, capacity),
+	}
+}
+
 func (s *Stack[T]) Push(elem T) {
 	s.items = append(s.items, elem)
 }
@@ -29,9 +35,7 @@ func (s *Stack[T]) Pop() T {
 }
 
 func largestRectangle(heights []int) int {
-	stack := Stack[[2]int]{
-		items: make([][2]int, 0, len(heights)),
-	}
+	stack := NewStack[[2]int](len(heights))
 	maxArea := 0
 
 	heights = append(heights, 0)
@@ -39,12 +43,7 @@ func largestRectangle(heights []int) int {
 		start := i
 		for !stack.Empty() && stack.Top()[1] > height {
 			prev := stack.Pop()
-
-			prevArea := prev[1] * (i - prev[0])
-
-			if maxArea < prevArea {
-				maxArea = prevArea
-			}
+			maxArea = max(prev[1]*(i-prev[0]), maxArea)
 			start = prev[0]
 		}
 		stack.Push([2]int{start, height})
@@ -66,9 +65,7 @@ func maximalRectangle(matrix [][]byte) int {
 			}
 		}
 
-		if temp := largestRectangle(row); temp > maxArea {
-			maxArea = temp
-		}
+		maxArea = max(largestRectangle(row), maxArea)
 	}
 
 	return maxArea
@@ -84,5 +81,11 @@ func Test_maximalRectangle(t *testing.T) {
 		{'1', '0', '1', '1', '1'},
 		{'1', '1', '1', '1', '1'},
 		{'1', '0', '0', '1', '0'},
+	}))
+	assert.Equal(t, 12, maximalRectangle([][]byte{
+		{'1', '1', '1', '1', '1'},
+		{'1', '1', '1', '1', '1'},
+		{'1', '0', '1', '1', '1'},
+		{'1', '0', '1', '1', '1'},
 	}))
 }
