@@ -1,9 +1,8 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
 #include <cmath>
-#include <cstdlib>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 auto find_numbers(const std::vector<int> &nums) -> int {
   return std::count_if(nums.cbegin(), nums.cend(), [](int n) {
@@ -11,13 +10,7 @@ auto find_numbers(const std::vector<int> &nums) -> int {
   });
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(find_numbers({12, 345, 2, 6, 7896}) == 2_i);
-    expect(find_numbers({555, 901, 482, 1771}) == 1_i);
-  };
-
-  return EXIT_SUCCESS;
+TEST(FindNumbersEvenDigist, Cases) {
+  EXPECT_EQ(find_numbers({12, 345, 2, 6, 7896}), 2);
+  EXPECT_EQ(find_numbers({555, 901, 482, 1771}), 1);
 }

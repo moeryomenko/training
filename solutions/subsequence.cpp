@@ -1,8 +1,8 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
 #include <cstdlib>
 #include <string_view>
+
+#include <gtest/gtest.h>
 
 auto is_subsequence(std::string_view s, std::string_view t) -> bool {
   return s.length() ==
@@ -15,13 +15,7 @@ auto is_subsequence(std::string_view s, std::string_view t) -> bool {
          });
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(is_subsequence("abc", "ahbgdc"));
-    expect(!is_subsequence("axc", "ahbgdc"));
-  };
-
-  return EXIT_SUCCESS;
+TEST(Subsequence, Cases) {
+  EXPECT_TRUE(is_subsequence("abc", "ahbgdc"));
+  EXPECT_FALSE(is_subsequence("axc", "ahbgdc"));
 }

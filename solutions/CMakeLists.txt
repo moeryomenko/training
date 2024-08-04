@@ -1,11 +1,13 @@
 function(solution)
-    cmake_parse_arguments(SOLUTION "" "NAME" "" ${ARGN})
+	cmake_parse_arguments(SOLUTION "" "NAME" "" ${ARGN})
 
-    string(CONCAT SUIT_TEST ${SOLUTION_NAME} "_suit")
-    string(CONCAT SOLUTION_TEST_SRC ${SOLUTION_NAME} ".cpp")
+	string(TOUPPER ${SOLUTION_NAME} SUIT)
+	string(CONCAT SUIT_TEST ${SUIT} "_SUIT")
+	string(CONCAT SOLUTION_TEST_SRC ${SOLUTION_NAME} ".cpp")
 
-    add_executable(${SOLUTION_NAME} "${SOLUTION_TEST_SRC}")
-    add_test(NAME ${SUIT_TEST} COMMAND ${SOLUTION_NAME})
+	add_executable(${SOLUTION_NAME} "${SOLUTION_TEST_SRC}")
+	target_link_libraries(${SOLUTION_NAME} PRIVATE GTest::gtest_main GTest::gmock)
+	gtest_discover_tests(${SOLUTION_NAME})
 endfunction()
 
 # leetcode
@@ -31,17 +33,17 @@ solution(NAME "subsequence_k_max_sum")
 solution(NAME "k_largest_elements")
 solution(NAME "max_average_subarray")
 solution(NAME "max_sum_circle_subarray")
-solution(NAME "longest_palindrome")
-solution(NAME "binary_search")
-solution(NAME "min_cost_climbing_stairs")
-solution(NAME "unique_path")
-solution(NAME "largest_rectangle")
-solution(NAME "backspace_string_cmp")
-solution(NAME "length_longest_substring")
-solution(NAME "toeplitz_matrix")
-
-# codewars
-solution(NAME "supermarket_queue")
-
-# other
-solution(NAME "subarray_k_max_sum")
+# solution(NAME "longest_palindrome")
+# solution(NAME "binary_search")
+# solution(NAME "min_cost_climbing_stairs")
+# solution(NAME "unique_path")
+# solution(NAME "largest_rectangle")
+# solution(NAME "backspace_string_cmp")
+# solution(NAME "length_longest_substring")
+# solution(NAME "toeplitz_matrix")
+#
+# # codewars
+# solution(NAME "supermarket_queue")
+#
+# # other
+# solution(NAME "subarray_k_max_sum")

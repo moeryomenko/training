@@ -1,9 +1,8 @@
 #include <algorithm>
-#include <boost/ut.hpp>
-
-#include <cstdlib>
 #include <numeric>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 auto find_subarray_sum_circle(const std::vector<int> &nums) -> int {
   if (nums.size() == 1)
@@ -29,14 +28,8 @@ auto find_subarray_sum_circle(const std::vector<int> &nums) -> int {
   return std::max(max, sum - min);
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(find_subarray_sum_circle({1, -2, 3, -2}) == 3_i);
-    expect(find_subarray_sum_circle({5, -3, 5}) == 10_i);
-    expect(find_subarray_sum_circle({-3, -2, -3}) == -2_i);
-  };
-
-  return EXIT_SUCCESS;
+TEST(FindSubarraySumCircle, Cases) {
+  EXPECT_EQ(find_subarray_sum_circle({1, -2, 3, -2}), 3);
+  EXPECT_EQ(find_subarray_sum_circle({5, -3, 5}), 10);
+  EXPECT_EQ(find_subarray_sum_circle({-3, -2, -3}), -2);
 }

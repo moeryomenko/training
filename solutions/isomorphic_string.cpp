@@ -1,12 +1,9 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
 #include <array>
 #include <bitset>
-#include <cstdlib>
-#include <map>
-#include <set>
 #include <string>
+
+#include <gtest/gtest.h>
 
 auto is_isomorphic(std::string s, std::string t) -> bool {
   return std::equal(s.cbegin(), s.cend(), t.cbegin(), t.cend(),
@@ -22,15 +19,9 @@ auto is_isomorphic(std::string s, std::string t) -> bool {
                     });
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(is_isomorphic("egg", "add"));
-    expect(!is_isomorphic("foo", "bar"));
-    expect(!is_isomorphic("bbbaaaba", "aaabbbba"));
-    expect(!is_isomorphic("babc", "baba"));
-  };
-
-  return EXIT_SUCCESS;
+TEST(Isomorphic, Cases) {
+  EXPECT_TRUE(is_isomorphic("egg", "add"));
+  EXPECT_FALSE(is_isomorphic("foo", "bar"));
+  EXPECT_FALSE(is_isomorphic("bbbaaaba", "aaabbbba"));
+  EXPECT_FALSE(is_isomorphic("babc", "baba"));
 }

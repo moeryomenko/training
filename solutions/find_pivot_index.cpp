@@ -1,10 +1,10 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
 #include <cstdlib>
 #include <iterator>
 #include <numeric>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 auto find_pivot_index(const std::vector<int> &nums) -> int {
   auto is_pivot = [sum = std::accumulate(nums.cbegin(), nums.cend(), 0),
@@ -18,13 +18,7 @@ auto find_pivot_index(const std::vector<int> &nums) -> int {
   return it != nums.cend() ? std::distance(nums.cbegin(), it) : -1;
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(find_pivot_index(std::vector{1, 7, 3, 6, 5, 6}) == 3_i);
-    expect(find_pivot_index(std::vector{1, 2, 3}) == -1_i);
-  };
-
-  return EXIT_SUCCESS;
+TEST(FindPivotIndex, Cases) {
+  EXPECT_EQ(find_pivot_index(std::vector{1, 7, 3, 6, 5, 6}), 3);
+  EXPECT_EQ(find_pivot_index(std::vector{1, 2, 3}), -1);
 }

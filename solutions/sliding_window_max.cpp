@@ -1,5 +1,3 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
 #include <cstdlib>
 #include <deque>
@@ -7,8 +5,10 @@
 #include <map>
 #include <numeric>
 #include <queue>
-#include <set>
 #include <vector>
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 template <typename T>
 class max_heap_t
@@ -32,8 +32,8 @@ public:
   }
 };
 
-auto max_sliding_window_slower(const std::vector<int> &nums, int k)
-    -> std::vector<int> {
+auto max_sliding_window_slower(const std::vector<int> &nums,
+                               int k) -> std::vector<int> {
   std::vector<int> res;
   res.reserve(nums.size() - k + 1);
   for (int window_begin = 0, window_end = k; window_end <= nums.size();
@@ -45,8 +45,8 @@ auto max_sliding_window_slower(const std::vector<int> &nums, int k)
   return res;
 }
 
-auto max_sliding_window_slow(const std::vector<int> &nums, int k)
-    -> std::vector<int> {
+auto max_sliding_window_slow(const std::vector<int> &nums,
+                             int k) -> std::vector<int> {
   std::vector<int> res;
   res.reserve(nums.size() - k + 1);
   res.emplace_back(*std::max_element(nums.cbegin(), nums.cbegin() + k));
@@ -66,8 +66,8 @@ auto max_sliding_window_slow(const std::vector<int> &nums, int k)
   return res;
 }
 
-auto max_sliding_window_max_heap(const std::vector<int> &nums, int k)
-    -> std::vector<int> {
+auto max_sliding_window_max_heap(const std::vector<int> &nums,
+                                 int k) -> std::vector<int> {
   using max_heap_t = std::priority_queue<int, std::vector<int>, std::less<int>>;
   auto max_heap = std::accumulate(nums.cbegin(), nums.cbegin() + k,
                                   max_heap_t{}, [](max_heap_t max_heap, int n) {
@@ -90,8 +90,8 @@ auto max_sliding_window_max_heap(const std::vector<int> &nums, int k)
       });
 }
 
-auto max_sliding_window_max_heap_map(const std::vector<int> &nums, int k)
-    -> std::vector<int> {
+auto max_sliding_window_max_heap_map(const std::vector<int> &nums,
+                                     int k) -> std::vector<int> {
   auto max_heap =
       std::accumulate(nums.cbegin(), nums.cbegin() + k, std::map<int, int>{},
                       [](auto max_heap, int n) {
@@ -119,8 +119,8 @@ auto max_sliding_window_max_heap_map(const std::vector<int> &nums, int k)
       });
 }
 
-auto max_sliding_window_custom_max_heap(const std::vector<int> &nums, int k)
-    -> std::vector<int> {
+auto max_sliding_window_custom_max_heap(const std::vector<int> &nums,
+                                        int k) -> std::vector<int> {
   auto max_heap =
       std::accumulate(nums.cbegin(), nums.cbegin() + k, max_heap_t<int>{},
                       [](max_heap_t<int> max_heap, int n) {
@@ -144,8 +144,8 @@ auto max_sliding_window_custom_max_heap(const std::vector<int> &nums, int k)
       });
 }
 
-auto max_sliding_window(const std::vector<int> &nums, int k)
-    -> std::vector<int> {
+auto max_sliding_window(const std::vector<int> &nums,
+                        int k) -> std::vector<int> {
   // deque approach.
   std::vector<int> res;
   std::deque<int> q;
@@ -168,39 +168,43 @@ auto max_sliding_window(const std::vector<int> &nums, int k)
   return res;
 }
 
-#define ANKERL_NANOBENCH_IMPLEMENT
-#include <nanobench.h>
+TEST(MaxSlidingWindowSlower, Cases) {
+  ASSERT_THAT(max_sliding_window_slower({1, 3, -1, -3, 5, 3, 6, 7}, 3),
+              testing::ElementsAre(3, 3, 5, 5, 6, 7));
+  ASSERT_THAT(max_sliding_window_slower({1}, 1), testing::ElementsAre(1));
+  ASSERT_THAT(max_sliding_window_slower({-7, -8, 7, 5, 7, 1, 6, 0}, 4),
+              testing::ElementsAre(7, 7, 7, 7, 7));
+}
 
-auto main() -> int {
-  using namespace boost::ut;
+TEST(MaxSlidingWindowSlow, Cases) {
+  ASSERT_THAT(max_sliding_window_slow({1, 3, -1, -3, 5, 3, 6, 7}, 3),
+              testing::ElementsAre(3, 3, 5, 5, 6, 7));
+  ASSERT_THAT(max_sliding_window_slow({1}, 1), testing::ElementsAre(1));
+  ASSERT_THAT(max_sliding_window_slow({-7, -8, 7, 5, 7, 1, 6, 0}, 4),
+              testing::ElementsAre(7, 7, 7, 7, 7));
+}
 
-  "cases"_test = [] {
-    expect(max_sliding_window({1, 3, -1, -3, 5, 3, 6, 7}, 3) ==
-           std::vector{3, 3, 5, 5, 6, 7});
-    expect(max_sliding_window({1}, 1) == std::vector{1});
-    expect(max_sliding_window({-7, -8, 7, 5, 7, 1, 6, 0}, 4) ==
-           std::vector{7, 7, 7, 7, 7});
-  };
+TEST(MaxSlidingWindowMaxHeap, Cases) {
+  ASSERT_THAT(max_sliding_window_max_heap({1, 3, -1, -3, 5, 3, 6, 7}, 3),
+              testing::ElementsAre(3, 3, 5, 5, 6, 7));
+  ASSERT_THAT(max_sliding_window_max_heap({1}, 1), testing::ElementsAre(1));
+  ASSERT_THAT(max_sliding_window_max_heap({-7, -8, 7, 5, 7, 1, 6, 0}, 4),
+              testing::ElementsAre(7, 7, 7, 7, 7));
+}
 
-  for (auto solution :
-       std::vector<std::pair<std::string, std::function<std::vector<int>(
-                                              const std::vector<int> &, int)>>>{
-           {"1st approach", max_sliding_window_slower},
-           {"2st approach", max_sliding_window_slow},
-           {"1st approach of max_heap", max_sliding_window_max_heap},
-           {"2st approach of max_heap", max_sliding_window_max_heap_map},
-           {"3st approach of max_heap", max_sliding_window_custom_max_heap},
-           {"queue approach", max_sliding_window},
-       }) {
-    ankerl::nanobench::Bench().run(solution.first, [&solution] {
-      ankerl::nanobench::doNotOptimizeAway(
-          solution.second({1, 3, -1, -3, 5, 3, 6, 7, -7, -8, 7, 5, 7, 1, 6, 0,
-                           1, 3, -1, -3, 5, 3, 6, 7, -7, -8, 7, 5, 7, 1, 6, 0,
-                           1, 3, -1, -3, 5, 3, 6, 7, -7, -8, 7, 5, 7, 1, 6, 0,
-                           1, 3, -1, -3, 5, 3, 6, 7, -7, -8, 7, 5, 7, 1, 6, 0},
-                          10));
-    });
-  }
+TEST(MaxSlidingWindowCustomMaxHeap, Cases) {
+  ASSERT_THAT(max_sliding_window_custom_max_heap({1, 3, -1, -3, 5, 3, 6, 7}, 3),
+              testing::ElementsAre(3, 3, 5, 5, 6, 7));
+  ASSERT_THAT(max_sliding_window_custom_max_heap({1}, 1),
+              testing::ElementsAre(1));
+  ASSERT_THAT(max_sliding_window_custom_max_heap({-7, -8, 7, 5, 7, 1, 6, 0}, 4),
+              testing::ElementsAre(7, 7, 7, 7, 7));
+}
 
-  return EXIT_SUCCESS;
+TEST(MaxSlidingWindow, Cases) {
+  ASSERT_THAT(max_sliding_window({1, 3, -1, -3, 5, 3, 6, 7}, 3),
+              testing::ElementsAre(3, 3, 5, 5, 6, 7));
+  ASSERT_THAT(max_sliding_window({1}, 1), testing::ElementsAre(1));
+  ASSERT_THAT(max_sliding_window({-7, -8, 7, 5, 7, 1, 6, 0}, 4),
+              testing::ElementsAre(7, 7, 7, 7, 7));
 }

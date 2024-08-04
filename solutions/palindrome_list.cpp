@@ -1,12 +1,12 @@
-#include <boost/ut.hpp>
-#include <vector>
-
 #include "llist.h"
+
+#include <gtest/gtest.h>
 
 auto middle_node(ListNode *head) -> ListNode * {
   auto slow{head};
   for (auto fast{head}; fast != nullptr && fast->next != nullptr;
-       slow = slow->next, fast = fast->next->next) {}
+       slow = slow->next, fast = fast->next->next) {
+  }
   return slow;
 }
 
@@ -35,12 +35,8 @@ auto is_palindrome_list(ListNode *head) -> bool {
   return true;
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(is_palindrome_list(list_from_vector({1, 2, 2, 1})));
-    expect(is_palindrome_list(list_from_vector({1, 2, 1})));
-    expect(!is_palindrome_list(list_from_vector({1, 2, 3, 1})));
-  };
+TEST(Palindrome, Cases) {
+  EXPECT_TRUE(is_palindrome_list(list_from_vector({1, 2, 2, 1})));
+  EXPECT_TRUE(is_palindrome_list(list_from_vector({1, 2, 1})));
+  EXPECT_FALSE(is_palindrome_list(list_from_vector({1, 2, 3, 1})));
 }

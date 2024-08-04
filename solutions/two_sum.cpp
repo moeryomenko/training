@@ -1,6 +1,7 @@
-#include <boost/ut.hpp>
-
 #include <vector>
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 auto two_sum(const std::vector<int> &nums, int target) -> std::vector<int> {
   for (int i = 0; i < nums.size(); ++i)
@@ -10,14 +11,9 @@ auto two_sum(const std::vector<int> &nums, int target) -> std::vector<int> {
   return {-1, -1};
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(two_sum(std::vector{2, 7, 11, 15}, 9) == std::vector{0, 1});
-    expect(two_sum(std::vector{3, 2, 4}, 6) == std::vector{1, 2});
-    expect(two_sum(std::vector{3, 3}, 6) == std::vector{0, 1});
-  };
-
-  return 0;
+TEST(TwoSum, Cases) {
+  ASSERT_THAT(two_sum(std::vector{2, 7, 11, 15}, 9),
+              testing::ElementsAre(0, 1));
+  ASSERT_THAT(two_sum(std::vector{3, 2, 4}, 6), testing::ElementsAre(1, 2));
+  ASSERT_THAT(two_sum(std::vector{3, 3}, 6), testing::ElementsAre(0, 1));
 }

@@ -1,11 +1,9 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
-#include <iostream>
 #include <limits>
 #include <numeric>
-#include <stack>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 int min_difficulty(const std::vector<int> &jobDifficulty, int d) {
   if (jobDifficulty.size() < d)
@@ -52,13 +50,9 @@ int min_difficulty(const std::vector<int> &jobDifficulty, int d) {
   return dp.back();
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(min_difficulty({7, 1, 7, 1, 7, 1}, 3) == 15_i);
-    expect(min_difficulty({6, 5, 4, 3, 2, 1}, 2) == 7_i);
-    expect(min_difficulty({9, 9, 9}, 4) == -1_i);
-    expect(min_difficulty({1, 1, 1}, 3) == 3_i);
-  };
+TEST(MinDifficultyJobSchedule, Cases) {
+  EXPECT_EQ(min_difficulty({7, 1, 7, 1, 7, 1}, 3), 15);
+  EXPECT_EQ(min_difficulty({6, 5, 4, 3, 2, 1}, 2), 7);
+  EXPECT_EQ(min_difficulty({9, 9, 9}, 4), -1);
+  EXPECT_EQ(min_difficulty({1, 1, 1}, 3), 3);
 }

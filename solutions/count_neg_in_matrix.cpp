@@ -1,10 +1,9 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
-#include <cstdlib>
 #include <iterator>
 #include <numeric>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 auto countNegatives(std::vector<std::vector<int>> grid) -> int {
   return std::accumulate(
@@ -17,21 +16,16 @@ auto countNegatives(std::vector<std::vector<int>> grid) -> int {
       });
 };
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(
-        countNegatives(
-            {{4, 3, 2, -1}, {3, 2, 1, -1}, {1, 1, -1, -2}, {-1, -1, -2, -3}}) ==
-        8_i);
-    expect(countNegatives({{5, 1, 0}, {-5, -5, -5}}) == 3_i);
-    expect(countNegatives({{3, 2}, {1, 0}}) == 0_i);
-    expect(countNegatives({{3, -1, -3, -3, -3},
-                           {2, -2, -3, -3, -3},
-                           {1, -2, -3, -3, -3},
-                           {0, -3, -3, -3, -3}}) == 16_i);
-  };
-
-  return EXIT_SUCCESS;
+TEST(CountNegativesInMatrix, test_name) {
+  EXPECT_EQ(
+      countNegatives(
+          {{4, 3, 2, -1}, {3, 2, 1, -1}, {1, 1, -1, -2}, {-1, -1, -2, -3}}),
+      8);
+  EXPECT_EQ(countNegatives({{5, 1, 0}, {-5, -5, -5}}), 3);
+  EXPECT_EQ(countNegatives({{3, 2}, {1, 0}}), 0);
+  EXPECT_EQ(countNegatives({{3, -1, -3, -3, -3},
+                            {2, -2, -3, -3, -3},
+                            {1, -2, -3, -3, -3},
+                            {0, -3, -3, -3, -3}}),
+            16);
 }

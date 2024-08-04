@@ -1,11 +1,13 @@
-#include <boost/ut.hpp>
-
+#include "gmock/gmock.h"
 #include <cstdlib>
 #include <numeric>
 #include <utility>
 #include <vector>
 
 #include "llist.h"
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 auto merge_sorted_lists(ListNode *list1, ListNode *list2) -> ListNode * {
   if (!list1)
@@ -56,24 +58,18 @@ auto merge_k_sorted_lits(std::vector<ListNode *> lists) -> ListNode * {
                          });
 }
 
-auto main() -> int {
-  using namespace boost::ut;
+TEST(MergeTwoSortedLists, Cases) {
+  ASSERT_THAT(vector_from_list(merge_sorted_lists(list_from_vector({1, 2, 4}),
+                                                  list_from_vector({1, 3, 4}))),
+              testing::ElementsAre(1, 1, 2, 3, 4, 4));
+  ASSERT_THAT(vector_from_list(merge_sorted_lists(list_from_vector({1}),
+                                                  list_from_vector({2}))),
+              testing::ElementsAre(1, 2));
+}
 
-  "merge_two_sorted_lists"_test = [] {
-    expect(vector_from_list(merge_sorted_lists(list_from_vector({1, 2, 4}),
-                                               list_from_vector({1, 3, 4}))) ==
-           std::vector{1, 1, 2, 3, 4, 4});
-    expect(vector_from_list(merge_sorted_lists(list_from_vector({1}),
-                                               list_from_vector({2}))) ==
-           std::vector{1, 2});
-  };
-
-  "merge_k_sorted_lits"_test = [] {
-    expect(vector_from_list(merge_k_sorted_lits({list_from_vector({1, 4, 5}),
-                                                 list_from_vector({1, 3, 4}),
-                                                 list_from_vector({2, 6})})) ==
-           std::vector{1, 1, 2, 3, 4, 4, 5, 6});
-  };
-
-  return EXIT_SUCCESS;
+TEST(MergeKSortedLists, Cases) {
+  ASSERT_THAT(vector_from_list(merge_k_sorted_lits({list_from_vector({1, 4, 5}),
+                                                    list_from_vector({1, 3, 4}),
+                                                    list_from_vector({2, 6})})),
+              testing::ElementsAre(1, 1, 2, 3, 4, 4, 5, 6));
 }

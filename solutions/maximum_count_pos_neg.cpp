@@ -1,10 +1,9 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
 #include <cstdlib>
 #include <iterator>
-#include <ranges>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 auto maximumCount(const std::vector<int> &nums) -> int {
   auto [last_neg, first_pos] = std::equal_range(nums.cbegin(), nums.cend(), 0);
@@ -12,14 +11,8 @@ auto maximumCount(const std::vector<int> &nums) -> int {
                   std::distance(first_pos, nums.cend()));
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(maximumCount({-2, -1, -1, 1, 2, 3}) == 3_i);
-    expect(maximumCount({-3, -2, -1, 0, 0, 1, 2}) == 3_i);
-    expect(maximumCount({5, 20, 66, 1314}) == 4_i);
-  };
-
-  return EXIT_SUCCESS;
+TEST(MaximumCountPositiveNegative, Cases) {
+  EXPECT_EQ(maximumCount({-2, -1, -1, 1, 2, 3}), 3);
+  EXPECT_EQ(maximumCount({-3, -2, -1, 0, 0, 1, 2}), 3);
+  EXPECT_EQ(maximumCount({5, 20, 66, 1314}), 4);
 }

@@ -1,6 +1,8 @@
-#include <boost/ut.hpp>
-
 #include "llist.h"
+
+#include "gmock/gmock.h"
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 int take_value(ListNode *it) { return it != nullptr ? it->val : 0; }
 
@@ -39,28 +41,25 @@ auto add_two_numbers(ListNode *l1, ListNode *l2) -> ListNode * {
   return result;
 }
 
-auto main() -> int {
-  using namespace boost::ut;
+TEST(List, Converstion) {
+  ASSERT_THAT(vector_from_list(list_from_vector({1, 2, 3})),
+              testing::ElementsAre(1, 2, 3));
+  ASSERT_THAT(
+      vector_from_list(list_from_vector(std::vector{8, 9, 9, 9, 0, 0, 0, 1})),
+      testing::ElementsAre(8, 9, 9, 9, 0, 0, 0, 1));
+}
 
-  "list converstion"_test = [] {
-    expect(std::vector{1, 2, 3} ==
-           vector_from_list(list_from_vector({1, 2, 3})));
-    expect(std::vector{8, 9, 9, 9, 0, 0, 0, 1} ==
-           vector_from_list(
-               list_from_vector(std::vector{8, 9, 9, 9, 0, 0, 0, 1})));
-  };
-
-  "cases"_test = [] {
-    expect(vector_from_list(
-               add_two_numbers(list_from_vector(std::vector{2, 4, 3}),
-                               list_from_vector(std::vector{5, 6, 4}))) ==
-           std::vector{7, 0, 8});
-    expect(vector_from_list(add_two_numbers(
-               list_from_vector(std::vector{0}),
-               list_from_vector(std::vector{0}))) == std::vector{0});
-    expect(vector_from_list(add_two_numbers(
-               list_from_vector(std::vector{9, 9, 9, 9, 9, 9, 9}),
-               list_from_vector(std::vector{9, 9, 9, 9}))) ==
-           std::vector{8, 9, 9, 9, 0, 0, 0, 1});
-  };
+TEST(AddTwoNumbersList, Cases) {
+  ASSERT_THAT(
+      vector_from_list(add_two_numbers(list_from_vector(std::vector{2, 4, 3}),
+                                       list_from_vector(std::vector{5, 6, 4}))),
+      testing::ElementsAre(7, 0, 8));
+  ASSERT_THAT(
+      vector_from_list(add_two_numbers(list_from_vector(std::vector{0}),
+                                       list_from_vector(std::vector{0}))),
+      testing::ElementsAre(0));
+  ASSERT_THAT(vector_from_list(add_two_numbers(
+                  list_from_vector(std::vector{9, 9, 9, 9, 9, 9, 9}),
+                  list_from_vector(std::vector{9, 9, 9, 9}))),
+              testing::ElementsAre(8, 9, 9, 9, 0, 0, 0, 1));
 }
