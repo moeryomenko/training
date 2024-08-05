@@ -1,9 +1,6 @@
-#include <boost/ut.hpp>
-
-#include <algorithm>
-#include <cstdlib>
-#include <numeric>
 #include <string_view>
+
+#include <gtest/gtest.h>
 
 auto backspace_cmp(std::string_view s, std::string_view t) -> bool {
   int i = s.length() - 1;
@@ -26,14 +23,8 @@ auto backspace_cmp(std::string_view s, std::string_view t) -> bool {
   return i == -1 && j == -1;
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(backspace_cmp("ab#c", "ad#c"));
-    expect(backspace_cmp("aa#b#c", "ad#c"));
-    expect(backspace_cmp("ab##", "c#d#"));
-  };
-
-  return EXIT_SUCCESS;
+TEST(BackspaceStringCmp, Cases) {
+  EXPECT_TRUE(backspace_cmp("ab#c", "ad#c"));
+  EXPECT_TRUE(backspace_cmp("aa#b#c", "ad#c"));
+  EXPECT_TRUE(backspace_cmp("ab##", "c#d#"));
 }

@@ -1,9 +1,7 @@
-#include <boost/ut.hpp>
-
-#include <algorithm>
-#include <cstdlib>
 #include <numeric>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 auto max_subsequence(const std::vector<int> &nums, int k) -> int {
   // auto __sum = std::accumulate(nums.cbegin(), nums.cbegin() + k, 0);
@@ -34,13 +32,7 @@ auto max_subsequence(const std::vector<int> &nums, int k) -> int {
                          });
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(max_subsequence({2, 1, 3, 3}, 2) == 6_i);   // sum([3, 3]) = 6
-    expect(max_subsequence({-1, -1, 3, 4}, 3) == 6_i); // sum([-1, 3, 4]) = 6
-  };
-
-  return EXIT_SUCCESS;
+TEST(MaxSubarrayKMaxSum, Cases) {
+  EXPECT_EQ(max_subsequence({2, 1, 3, 3}, 2), 6);   // sum([3, 3]) = 6
+  EXPECT_EQ(max_subsequence({-1, -1, 3, 4}, 3), 6); // sum([-1, 3, 4]) = 6
 }

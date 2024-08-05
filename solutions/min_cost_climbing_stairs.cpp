@@ -1,10 +1,7 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
-#include <cstdlib>
-#include <functional>
-#include <numeric>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 auto min_cost_climbing_stairs(std::vector<int> &&cost) -> int {
   auto len = cost.size();
@@ -14,14 +11,7 @@ auto min_cost_climbing_stairs(std::vector<int> &&cost) -> int {
   return std::min(cost[len - 1], cost[len - 2]);
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "case"_test = [] {
-    expect(min_cost_climbing_stairs({10, 15, 20}) == 15_i);
-    expect(min_cost_climbing_stairs({1, 100, 1, 1, 1, 100, 1, 1, 100, 1}) ==
-           6_i);
-  };
-
-  return EXIT_SUCCESS;
+TEST(MinCostClimbingStairs, Cases) {
+  EXPECT_EQ(min_cost_climbing_stairs({10, 15, 20}), 15);
+  EXPECT_EQ(min_cost_climbing_stairs({1, 100, 1, 1, 1, 100, 1, 1, 100, 1}), 6);
 }

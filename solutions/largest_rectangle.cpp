@@ -1,11 +1,9 @@
 #include <algorithm>
-#include <boost/ut.hpp>
-
-#include <cstdlib>
 #include <numeric>
-#include <stack>
 #include <utility>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 auto largest_rectangle(std::vector<int> heights) -> int {
   std::vector<std::pair<int, int>> stack;
@@ -39,21 +37,20 @@ auto maximal_rectangle(const std::vector<std::vector<char>> &matrix) -> int {
                          });
 }
 
-auto main() -> int {
-  using namespace boost::ut;
+TEST(LargestRectangle, Cases) {
+  EXPECT_EQ(largest_rectangle({2, 1, 5, 6, 2, 3}), 10);
+}
 
-  "cases"_test = [] {
-    expect(largest_rectangle({2, 1, 5, 6, 2, 3}) == 10_i);
-    expect(maximal_rectangle({{'1', '0', '1', '0', '0'},
-                              {'1', '0', '1', '1', '1'},
-                              {'1', '1', '1', '1', '1'},
-                              {'1', '0', '0', '1', '0'}}) == 6_i);
-    expect(maximal_rectangle({{'1', '0', '1', '0', '0'},
-                              {'1', '0', '1', '1', '1'},
-                              {'1', '1', '1', '1', '1'},
-                              {'1', '1', '1', '1', '1'}}) == 10_i);
-    expect(maximal_rectangle({{'0'}}) == 0_i);
-  };
-
-  return EXIT_SUCCESS;
+TEST(MaximalRectangle, Cases) {
+  EXPECT_EQ(maximal_rectangle({{'1', '0', '1', '0', '0'},
+                               {'1', '0', '1', '1', '1'},
+                               {'1', '1', '1', '1', '1'},
+                               {'1', '0', '0', '1', '0'}}),
+            6);
+  EXPECT_EQ(maximal_rectangle({{'1', '0', '1', '0', '0'},
+                               {'1', '0', '1', '1', '1'},
+                               {'1', '1', '1', '1', '1'},
+                               {'1', '1', '1', '1', '1'}}),
+            10);
+  EXPECT_EQ(maximal_rectangle({{'0'}}), 0);
 }

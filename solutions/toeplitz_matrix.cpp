@@ -1,8 +1,7 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
-#include <cstdlib>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 auto is_toeplitz_matrix(std::vector<std::vector<int>> matrix) -> bool {
   return std::all_of(matrix.cbegin() + 1, matrix.cend(),
@@ -14,14 +13,9 @@ auto is_toeplitz_matrix(std::vector<std::vector<int>> matrix) -> bool {
                      });
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(is_toeplitz_matrix(std::vector<std::vector<int>>{
-        {1, 2, 3, 4}, {5, 1, 2, 3}, {9, 5, 1, 2}}));
-    expect(!is_toeplitz_matrix(std::vector<std::vector<int>>{{1, 2}, {2, 2}}));
-  };
-
-  return EXIT_SUCCESS;
+TEST(ToeplitzMatrix, Cases) {
+  EXPECT_TRUE(is_toeplitz_matrix(
+      std::vector<std::vector<int>>{{1, 2, 3, 4}, {5, 1, 2, 3}, {9, 5, 1, 2}}));
+  EXPECT_FALSE(
+      is_toeplitz_matrix(std::vector<std::vector<int>>{{1, 2}, {2, 2}}));
 }

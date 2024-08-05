@@ -1,6 +1,7 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
+#include <vector>
+
+#include <gtest/gtest.h>
 
 template <typename F> void bulk_foreach(std::vector<int> vec, int bulk, F f) {
   int n = 0, size = vec.size();
@@ -46,17 +47,12 @@ auto queueTime(std::vector<int> customers, int n) -> long {
   return *std::max_element(workers.begin(), workers.end());
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(queueTime({1, 2, 3, 4, 5}, 100) == 5_i);
-    expect(queueTime({}, 1) == 0_i);
-    expect(queueTime({2, 2, 3, 3, 4, 4}, 2) == 9_i);
-    expect(queueTime({1, 2, 3, 4}, 1) == 10_i);
-    expect(queueTime({2, 3, 10}, 2) == 12_i);
-    expect(queueTime({10, 2, 3, 3}, 2) == 10_i);
-    expect(queueTime({12, 2, 2, 10, 9, 1, 1}, 3) == 13_i);
-  };
-  return 0;
+TEST(QueueTime, Cases) {
+  EXPECT_EQ(queueTime({1, 2, 3, 4, 5}, 100), 5);
+  EXPECT_EQ(queueTime({}, 1), 0);
+  EXPECT_EQ(queueTime({2, 2, 3, 3, 4, 4}, 2), 9);
+  EXPECT_EQ(queueTime({1, 2, 3, 4}, 1), 10);
+  EXPECT_EQ(queueTime({2, 3, 10}, 2), 12);
+  EXPECT_EQ(queueTime({10, 2, 3, 3}, 2), 10);
+  EXPECT_EQ(queueTime({12, 2, 2, 10, 9, 1, 1}, 3), 13);
 }

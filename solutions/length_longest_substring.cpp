@@ -1,9 +1,7 @@
-#include <boost/ut.hpp>
-
 #include <algorithm>
 #include <bitset>
-#include <cstdlib>
-#include <set>
+
+#include <gtest/gtest.h>
 
 auto lengthOfLongestSubstring(std::string s) -> int {
   if (s.length() == 0)
@@ -34,15 +32,9 @@ auto lengthOfLongestSubstring(std::string s) -> int {
   return std::max(maxLen, len);
 }
 
-auto main() -> int {
-  using namespace boost::ut;
-
-  "cases"_test = [] {
-    expect(lengthOfLongestSubstring("abcabcbb") == 3_i);
-    expect(lengthOfLongestSubstring("bbbb") == 1_i);
-    expect(lengthOfLongestSubstring("pwwkew") == 3_i);
-    expect(lengthOfLongestSubstring(" ") == 1_i);
-  };
-
-  return EXIT_SUCCESS;
+TEST(LengthOfLongestSubstring, Cases) {
+  EXPECT_EQ(lengthOfLongestSubstring("abcabcbb"), 3);
+  EXPECT_EQ(lengthOfLongestSubstring("bbbb"), 1);
+  EXPECT_EQ(lengthOfLongestSubstring("pwwkew"), 3);
+  EXPECT_EQ(lengthOfLongestSubstring(" "), 1);
 }
